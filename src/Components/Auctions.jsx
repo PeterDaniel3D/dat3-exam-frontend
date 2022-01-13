@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 
 const Auctions = ({ facade }) => {
     const [auctions, setAuctions] = useState([])
+    const [errorMsg, setErrorMsg] = useState('')
 
     const updateAuctions = (data) => {
         setAuctions(data)
@@ -9,6 +10,15 @@ const Auctions = ({ facade }) => {
 
     useEffect(() => {
         facade.fetchData("GET", "auctions", updateAuctions)
+            .catch(err => {
+                if (err.status) {
+                    err.fullError.then(
+                        event =>
+                            setErrorMsg("(" + event.errorCode + ") " + event.message),
+                        updateAuctions([])
+                    )
+                } else console.log("Network Error")
+            })
     }, [facade])
 
     return (
@@ -42,6 +52,7 @@ const Auctions = ({ facade }) => {
                     ))}
                 </tbody>
             </table>
+            {errorMsg}
         </div>
     )
 }
