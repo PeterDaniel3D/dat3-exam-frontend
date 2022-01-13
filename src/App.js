@@ -39,7 +39,7 @@ function App() {
             <Auctions facade={Facade} />
           </Route>
           <Route exact path='/Boats'>
-            {Facade.hasUserAccess('user', loggedIn) && <Boats facade={Facade} />}
+            {Facade.hasUserAccess('owner', loggedIn) && <Boats facade={Facade} />}
           </Route>
         </Switch>
       </Router>
