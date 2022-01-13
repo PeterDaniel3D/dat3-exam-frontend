@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 const Boats = ({ facade }) => {
     const [boats, setBoats] = useState([])
     const [ownerId, setOwnerId] = useState(undefined)
-    const [errorMsg, setErrorMsg] = useState('No boats found. May I suggest an Auction?!')
+    const [errorMsg, setErrorMsg] = useState('')
 
     useEffect(() => {
         if (ownerId === undefined) {
@@ -36,7 +36,7 @@ const Boats = ({ facade }) => {
             <br />
             [US-2] As an owner I would like to see my boats
             <hr />
-            {ownerId !== undefined ? (
+            {ownerId === undefined ? (
                 <p>
                     You don't own any boats.
                 </p>
@@ -63,7 +63,7 @@ const Boats = ({ facade }) => {
                                 <td>{boat.brand}</td>
                                 <td>{boat.make}</td>
                                 <td>{boat.name}</td>
-                                <td>{boat.image}</td>
+                                <td><img src={boat.imageURL} alt='' width="300" /></td>
                             </tr>
                         ))}
                     </tbody>
