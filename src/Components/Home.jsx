@@ -1,5 +1,5 @@
 import React from 'react'
-import LogIn from "../Login";
+import LogIn from '../Login'
 
 const Home = ({ loggedIn, login, facade, logout }) => {
   return (

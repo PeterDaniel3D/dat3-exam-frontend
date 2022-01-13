@@ -3,26 +3,24 @@ function Header({ facade, loggedIn }) {
 
   return (
     <div>
-      <ul className="header">
+      <ul className='header'>
         <li>
-          <NavLink exact activeClassName="active" to="/">
+          <NavLink exact activeClassName='active' to='/'>
             Home
           </NavLink>
         </li>
-
         <li>
-          <NavLink activeClassName="active" to="/Auctions">
+          <NavLink activeClassName="active" to='/Auctions'>
             Auctions
           </NavLink>
         </li>
-
-        {/* {facade.hasUserAccess('owner', loggedIn) && (
+        {facade.hasUserAccess('owner', loggedIn) && (
           <li>
-            <NavLink activeClassName="active" to="/Auctions">
-              Auctions
+            <NavLink activeClassName='active' to='/Boats'>
+              Boats
             </NavLink>
           </li>
-        )} */}
+        )}
       </ul>
     </div>
   );
