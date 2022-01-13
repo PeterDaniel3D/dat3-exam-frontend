@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import URL from '../settings'
 
 const US_3 = ({ facade }) => {
-
-    const [createBoat, setCreateBoat] = useState({ name: '', brand: '', make: '', year: '', imageURL: '' })
+    const [createBoat, setCreateBoat] = useState({ name: '', brand: '', make: '', year: '', imageURL: '', ownerId: '' })
+    const [ownerId, setOwnerId] = useState()
+    const [errorMsg, setErrorMsg] = useState('')
 
     const handleChange = (event) => {
         const target = event.target
@@ -13,14 +15,36 @@ const US_3 = ({ facade }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        createBoat.ownerId = ownerId
         try {
             const options = facade.makeOptions('POST', true, createBoat)
             await fetch(URL + '/boat', options)
+                .catch(err => {
+                    if (err.status) {
+                        err.fullError.then(
+                            event =>
+                                setErrorMsg("(" + event.errorCode + ") " + event.message),
+                            setCreateBoat({ name: '', brand: '', make: '', year: '', imageURL: '', ownerId: ownerId }))
+                    } else console.log("Network Error")
+                })
         } finally {
-            setCreateBoat({ name: '', brand: '', make: '', year: '', imageURL: '' })
+            setCreateBoat({ name: '', brand: '', make: '', year: '', imageURL: '', ownerId: ownerId })
         }
     }
+
+    useEffect(() => {
+        if (ownerId === undefined) {
+            facade.fetchData("GET", "ownerId/" + facade.getUser(), (data) => setOwnerId(data.ownerId))
+                .catch(err => {
+                    if (err.status) {
+                        err.fullError.then(
+                            event =>
+                                setErrorMsg("(" + event.errorCode + ") " + event.message),
+                            setOwnerId(undefined))
+                    } else console.log("Network Error")
+                })
+        }
+    }, [facade, ownerId])
 
     return (
         <div>
@@ -52,7 +76,7 @@ const US_3 = ({ facade }) => {
                         </tr>
                         <tr>
                             <td>Image</td>
-                            <td><input type='text' required value={createBoat.imageURL} onChange={handleChange} id='image' /></td>
+                            <td><input type='text' required value={createBoat.imageURL} onChange={handleChange} id='imageURL' /></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -61,8 +85,17 @@ const US_3 = ({ facade }) => {
                     </tbody>
                 </table>
             </form>
-            {/* Debug */}
-            {/* {JSON.stringify({ brand: createBoat.brand, make: createBoat.make, name: createBoat.name, image: createBoat.image })} */}
+            <p>{errorMsg}</p>
+            {ownerId === undefined ? (<>Fetching id...</>) : (<></>)}
+
+            {/* <p>--- DEBUG ---<br />{JSON.stringify({
+                name: createBoat.name,
+                brand: createBoat.brand,
+                make: createBoat.make,
+                year: createBoat.make,
+                imageURL: createBoat.imageURL,
+                ownerId: ownerId
+            })}</p> */}
         </div >
     )
 }

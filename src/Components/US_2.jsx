@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 
 const US_2 = ({ facade }) => {
     const [boats, setBoats] = useState([])
-    const [ownerId, setOwnerId] = useState(undefined)
+    const [ownerId, setOwnerId] = useState()
     const [errorMsg, setErrorMsg] = useState('')
 
     useEffect(() => {
         if (ownerId === undefined) {
-            facade.fetchData("GET", "ownerId/" + facade.getUser(), (data) => setOwnerId(data))
+            facade.fetchData("GET", "ownerId/" + facade.getUser(), (data) => setOwnerId(data.ownerId))
                 .catch(err => {
                     if (err.status) {
                         err.fullError.then(
@@ -18,7 +18,7 @@ const US_2 = ({ facade }) => {
                 })
         }
         if (ownerId !== undefined) {
-            facade.fetchData("GET", "boatsByOwner/" + ownerId.ownerId, (data) =>
+            facade.fetchData("GET", "boatsByOwner/" + ownerId, (data) =>
                 setBoats(data), setErrorMsg(''))
                 .catch(err => {
                     if (err.status) {
