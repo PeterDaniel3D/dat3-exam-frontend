@@ -14,7 +14,7 @@ function Header({ facade, loggedIn }) {
             Auctions
           </NavLink>
         </li>
-        {facade.hasUserAccess('owner', loggedIn) && (
+        {facade.hasUserAccess('user', loggedIn) && (
           <li>
             <NavLink activeClassName='active' to='/Boats'>
               Boats
