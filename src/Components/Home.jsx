@@ -9,6 +9,7 @@ const Home = ({ loggedIn, login, facade, logout }) => {
 
           <button onClick={logout}>Logout</button>
           <h1>Exam</h1>
+          <p>User: {facade.getUser()}</p>
           <p>Role: {facade.getUserRoles()}</p>
         </div>)}
     </div>

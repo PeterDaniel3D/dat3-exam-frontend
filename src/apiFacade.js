@@ -66,6 +66,16 @@ function apiFacade() {
     } else return "";
   };
 
+  const getUser = () => {
+    const token = getToken();
+    if (token != null) {
+      const payloadBase64 = getToken().split(".")[1];
+      const decodedClaims = JSON.parse(window.atob(payloadBase64));
+      const username = decodedClaims.username;
+      return username;
+    } else return "";
+  };
+
   const hasUserAccess = (neededRole, loggedIn) => {
     const roles = getUserRoles().split(',')
     return loggedIn && roles.includes(neededRole)
@@ -75,6 +85,7 @@ function apiFacade() {
     makeOptions,
     setToken,
     getToken,
+    getUser,
     getUserRoles,
     hasUserAccess,
     loggedIn,
