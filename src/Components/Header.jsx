@@ -9,13 +9,20 @@ function Header({ facade, loggedIn }) {
             Home
           </NavLink>
         </li>
-        {facade.hasUserAccess('owner', loggedIn) && (
+
+        <li>
+          <NavLink activeClassName="active" to="/Auctions">
+            Auctions
+          </NavLink>
+        </li>
+
+        {/* {facade.hasUserAccess('owner', loggedIn) && (
           <li>
-            <NavLink activeClassName="active" to="/Placeholder">
-              Placeholder
+            <NavLink activeClassName="active" to="/Auctions">
+              Auctions
             </NavLink>
           </li>
-        )}
+        )} */}
       </ul>
     </div>
   );

@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Switch, Route, } from "react-router-dom";
 import Facade from "./apiFacade";
 import Home from "./Components/Home"
 import Header from "./Components/Header"
-import Placeholder from './Components/Placeholder';
+import Auctions from './Components/Auctions';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -35,9 +35,12 @@ function App() {
           <Route exact path="/">
             <Home loggedIn={loggedIn} login={login} facade={Facade} logout={logout} />
           </Route>
-          <Route exact path="/Placeholder">
-            {Facade.hasUserAccess('user', loggedIn) && <Placeholder facade={Facade} />}
+          <Route exact path="/Auctions">
+            <Auctions facade={Facade} />
           </Route>
+          {/* <Route exact path="/Auctions">
+            {Facade.hasUserAccess('user', loggedIn) && <Auctions facade={Facade} />}
+          </Route> */}
         </Switch>
       </Router>
     </Container>
