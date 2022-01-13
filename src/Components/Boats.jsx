@@ -36,33 +36,39 @@ const Boats = ({ facade }) => {
             <br />
             [US-2] As an owner I would like to see my boats
             <hr />
-            <table>
-                <colgroup>
-                    <col width={50} />
-                    <col width={100} />
-                    <col width={100} />
-                    <col width={100} />
-                    <col width={100} />
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <th>Id</th>
-                        <th>Brand</th>
-                        <th>Make</th>
-                        <th>Name</th>
-                        <th>Image</th>
-                    </tr>
-                    {boats.map((boat, index) => (
-                        <tr key={index}>
-                            <td>{boat.id}</td>
-                            <td>{boat.brand}</td>
-                            <td>{boat.make}</td>
-                            <td>{boat.name}</td>
-                            <td>{boat.image}</td>
+            {ownerId !== undefined ? (
+                <p>
+                    You don't own any boats.
+                </p>
+            ) : (
+                <table>
+                    <colgroup>
+                        <col width={50} />
+                        <col width={100} />
+                        <col width={100} />
+                        <col width={100} />
+                        <col width={100} />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <th>Brand</th>
+                            <th>Make</th>
+                            <th>Name</th>
+                            <th>Image</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                        {boats.map((boat, index) => (
+                            <tr key={index}>
+                                <td>{boat.id}</td>
+                                <td>{boat.brand}</td>
+                                <td>{boat.make}</td>
+                                <td>{boat.name}</td>
+                                <td>{boat.image}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
             <p>{errorMsg}</p>
 
             {/* <p>--- DEBUG ---<br />User: {facade.getUser()}<br />JSON: {JSON.stringify(ownerId)}</p> */}
