@@ -10,14 +10,21 @@ function Header({ facade, loggedIn }) {
           </NavLink>
         </li>
         <li>
-          <NavLink activeClassName="active" to='/Auctions'>
+          <NavLink activeClassName="active" to='/US_1'>
             Auctions
           </NavLink>
         </li>
         {facade.hasUserAccess('owner', loggedIn) && (
           <li>
-            <NavLink activeClassName='active' to='/Boats'>
+            <NavLink activeClassName='active' to='/US_2'>
               Boats
+            </NavLink>
+          </li>
+        )}
+        {facade.hasUserAccess('owner', loggedIn) && (
+          <li>
+            <NavLink activeClassName='active' to='/US_3'>
+              Add Boat
             </NavLink>
           </li>
         )}

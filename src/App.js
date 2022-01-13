@@ -6,8 +6,10 @@ import { BrowserRouter as Router, Switch, Route, } from 'react-router-dom'
 import Facade from './apiFacade'
 import Home from './Components/Home'
 import Header from './Components/Header'
-import Auctions from './Components/Auctions'
-import Boats from "./Components/Boats"
+import US_1 from './Components/US_1'
+import US_2 from "./Components/US_2"
+import US_3 from "./Components/US_3"
+
 function App() {
   const [loggedIn, setLoggedIn] = useState(false)
 
@@ -35,11 +37,14 @@ function App() {
           <Route exact path='/'>
             <Home loggedIn={loggedIn} login={login} facade={Facade} logout={logout} />
           </Route>
-          <Route exact path='/Auctions'>
-            <Auctions facade={Facade} />
+          <Route exact path='/US_1'>
+            <US_1 facade={Facade} />
           </Route>
-          <Route exact path='/Boats'>
-            {Facade.hasUserAccess('owner', loggedIn) && <Boats facade={Facade} />}
+          <Route exact path='/US_2'>
+            {Facade.hasUserAccess('owner', loggedIn) && <US_2 facade={Facade} />}
+          </Route>
+          <Route exact path='/US_3'>
+            {Facade.hasUserAccess('owner', loggedIn) && <US_3 facade={Facade} />}
           </Route>
         </Switch>
       </Router>

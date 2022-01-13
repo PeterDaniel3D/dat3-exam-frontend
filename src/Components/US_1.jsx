@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const Auctions = ({ facade }) => {
+const US_1 = ({ facade }) => {
     const [auctions, setAuctions] = useState([])
     const [errorMsg, setErrorMsg] = useState('')
 
@@ -56,4 +56,4 @@ const Auctions = ({ facade }) => {
         </div>
     )
 }
-export default Auctions
+export default US_1

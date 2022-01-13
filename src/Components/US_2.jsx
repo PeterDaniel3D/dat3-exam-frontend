@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const Boats = ({ facade }) => {
+const US_2 = ({ facade }) => {
     const [boats, setBoats] = useState([])
     const [ownerId, setOwnerId] = useState(undefined)
     const [errorMsg, setErrorMsg] = useState('')
@@ -75,4 +75,4 @@ const Boats = ({ facade }) => {
         </div>
     )
 }
-export default Boats
+export default US_2
