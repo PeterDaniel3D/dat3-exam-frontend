@@ -2,26 +2,33 @@ import { useEffect, useState } from 'react'
 
 const Boats = ({ facade }) => {
     const [boats, setBoats] = useState([])
-    const [owners, setOwners] = useState([])
-    const [ownerId, setOwnerId] = useState(1)
-    const [errorMsg, setErrorMsg] = useState('')
-
-    const handleChange = (event) => {
-        setOwnerId(event.target.value);
-    }
+    const [ownerId, setOwnerId] = useState(undefined)
+    const [errorMsg, setErrorMsg] = useState('No boats found. May I suggest an Auction?!')
 
     useEffect(() => {
-        facade.fetchData("GET", "boatsByOwner/" + ownerId, (data) =>
-            setBoats(data), setErrorMsg(''))
-            .catch(err => {
-                if (err.status) {
-                    err.fullError.then(
-                        event =>
-                            setErrorMsg("(" + event.errorCode + ") " + event.message),
-                        setBoats([]))
-                } else console.log("Network Error")
-            })
-        facade.fetchData("GET", "owners", (data) => setOwners(data))
+        if (ownerId === undefined) {
+            facade.fetchData("GET", "ownerId/" + facade.getUser(), (data) => setOwnerId(data))
+                .catch(err => {
+                    if (err.status) {
+                        err.fullError.then(
+                            event =>
+                                setErrorMsg("(" + event.errorCode + ") " + event.message),
+                            setOwnerId(undefined))
+                    } else console.log("Network Error")
+                })
+        }
+        if (ownerId !== undefined) {
+            facade.fetchData("GET", "boatsByOwner/" + ownerId.ownerId, (data) =>
+                setBoats(data), setErrorMsg(''))
+                .catch(err => {
+                    if (err.status) {
+                        err.fullError.then(
+                            event =>
+                                setErrorMsg("(" + event.errorCode + ") " + event.message),
+                            setBoats([]))
+                    } else console.log("Network Error")
+                })
+        }
     }, [facade, ownerId])
 
     return (
@@ -29,13 +36,6 @@ const Boats = ({ facade }) => {
             <br />
             [US-2] As an owner I would like to see my boats
             <hr />
-            <p>
-                <select onChange={handleChange}>
-                    {owners.map((owner, index) => (
-                        <option key={index} value={owner.id}>{owner.name}</option>
-                    ))}
-                </select>
-            </p>
             <table>
                 <colgroup>
                     <col width={50} />
@@ -64,6 +64,8 @@ const Boats = ({ facade }) => {
                 </tbody>
             </table>
             <p>{errorMsg}</p>
+
+            {/* <p>--- DEBUG ---<br />User: {facade.getUser()}<br />JSON: {JSON.stringify(ownerId)}</p> */}
         </div>
     )
 }
