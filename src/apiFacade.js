@@ -20,12 +20,12 @@ function apiFacade() {
     return loggedIn;
   }
   const logout = () => {
-    localStorage.removeItem("jwtToken");
+    localStorage.removeItem('jwtToken');
   }
 
   const login = (user, password) => {
-    const options = makeOptions("POST", true, { username: user, password: password });
-    return fetch(URL + "/login", options)
+    const options = makeOptions('POST', true, { username: user, password: password });
+    return fetch(URL + '/login', options)
       .then(handleHttpErrors)
       .then(res => {
         setToken(res.token)
@@ -34,7 +34,7 @@ function apiFacade() {
 
   const fetchData = (option, endpoint, update) => {
     const options = makeOptions(option, true)
-    return fetch(URL + "/" + endpoint, options)
+    return fetch(URL + '/' + endpoint, options)
       .then(handleHttpErrors)
       .then((data) => update(data))
   }
@@ -43,12 +43,12 @@ function apiFacade() {
     var opts = {
       method: method,
       headers: {
-        "Content-type": "application/json",
+        'Content-type': 'application/json',
         'Accept': 'application/json',
       }
     }
     if (addToken && loggedIn()) {
-      opts.headers["x-access-token"] = getToken();
+      opts.headers['x-access-token'] = getToken();
     }
     if (body) {
       opts.body = JSON.stringify(body);
@@ -59,11 +59,11 @@ function apiFacade() {
   const getUserRoles = () => {
     const token = getToken();
     if (token != null) {
-      const payloadBase64 = getToken().split(".")[1];
+      const payloadBase64 = getToken().split('.')[1];
       const decodedClaims = JSON.parse(window.atob(payloadBase64));
       const roles = decodedClaims.roles;
       return roles;
-    } else return "";
+    } else return '';
   };
 
   const getUser = () => {

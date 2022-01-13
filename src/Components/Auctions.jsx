@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 
 const Auctions = ({ facade }) => {
     const [auctions, setAuctions] = useState([])
@@ -9,15 +9,15 @@ const Auctions = ({ facade }) => {
     }
 
     useEffect(() => {
-        facade.fetchData("GET", "auctions", updateAuctions)
+        facade.fetchData('GET', 'auctions', updateAuctions)
             .catch(err => {
                 if (err.status) {
                     err.fullError.then(
                         event =>
-                            setErrorMsg("(" + event.errorCode + ") " + event.message),
+                            setErrorMsg('(' + event.errorCode + ') ' + event.message),
                         updateAuctions([])
                     )
-                } else console.log("Network Error")
+                } else console.log('Network Error')
             })
     }, [facade])
 
