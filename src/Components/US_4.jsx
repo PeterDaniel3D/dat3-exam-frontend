@@ -16,20 +16,15 @@ const US_4 = ({ facade }) => {
         setCreateBoat({ ...createBoat, [id]: value })
     }
 
-
-    const updateInputFields = (event) => {
+    const getBoatId = (event) => {
         setBoatId(event.target.value);
-    }
-
-    const filter = () => {
-        return boats.map((boat) => {
-            if (boat.id === boatId) setBoat(boat)
-        })
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         createBoat.ownerId = ownerId
+        setBoat(boats[boatId - 1])
+        console.log(boat)
 
         // try {
         //     const options = facade.makeOptions('PUT', true, createBoat)
@@ -79,7 +74,7 @@ const US_4 = ({ facade }) => {
             [US-4] As an owner I would like to update an existing boat
             <hr />
             <p>
-                <select onChange={updateInputFields}>
+                <select onChange={getBoatId}>
                     {boats.map((boat, index) => (
                         <option key={index} value={boat.id}>{boat.name}</option>
                     ))}
