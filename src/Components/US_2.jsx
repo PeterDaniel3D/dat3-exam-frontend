@@ -18,8 +18,7 @@ const US_2 = ({ facade }) => {
                 })
         }
         if (ownerId !== undefined) {
-            facade.fetchData("GET", "boatsByOwner/" + ownerId, (data) =>
-                setBoats(data), setErrorMsg(''))
+            facade.fetchData("GET", "boatsByOwner/" + ownerId, (data) => setBoats(data))
                 .catch(err => {
                     if (err.status) {
                         err.fullError.then(

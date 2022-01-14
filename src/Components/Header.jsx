@@ -28,6 +28,13 @@ function Header({ facade, loggedIn }) {
             </NavLink>
           </li>
         )}
+        {facade.hasUserAccess('owner', loggedIn) && (
+          <li>
+            <NavLink activeClassName='active' to='/US_4'>
+              Update Boat
+            </NavLink>
+          </li>
+        )}
       </ul>
     </div>
   );

@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import URL from '../settings'
 
-const US_3 = ({ facade }) => {
+const US_4 = ({ facade }) => {
+    const [boats, setBoats] = useState([])
+    const [boat, setBoat] = useState({ name: '', brand: '', make: '', year: '', imageURL: '' })
     const [createBoat, setCreateBoat] = useState({ name: '', brand: '', make: '', year: '', imageURL: '', ownerId: '' })
     const [ownerId, setOwnerId] = useState()
+    const [boatId, setBoatId] = useState()
     const [errorMsg, setErrorMsg] = useState('')
 
     const handleChange = (event) => {
@@ -13,34 +16,58 @@ const US_3 = ({ facade }) => {
         setCreateBoat({ ...createBoat, [id]: value })
     }
 
+
+    const updateInputFields = (event) => {
+        setBoatId(event.target.value);
+    }
+
+    const filter = () => {
+        return boats.map((boat) => {
+            if (boat.id === boatId) setBoat(boat)
+        })
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault()
         createBoat.ownerId = ownerId
-        try {
-            const options = facade.makeOptions('POST', true, createBoat)
-            await fetch(URL + '/boat', options)
+
+        // try {
+        //     const options = facade.makeOptions('PUT', true, createBoat)
+        //     await fetch(URL + '/boat', options)
+        //         .catch(err => {
+        //             if (err.status) {
+        //                 err.fullError.then(
+        //                     event =>
+        //                         setErrorMsg("(" + event.errorCode + ") " + event.message),
+        //                     setCreateBoat({ name: '', brand: '', make: '', year: '', imageURL: '', ownerId: ownerId }))
+        //             } else console.log("Network Error")
+        //         })
+        // } finally {
+        //     setCreateBoat({ name: '', brand: '', make: '', year: '', imageURL: '', ownerId: ownerId })
+        // }
+
+    }
+
+    useEffect(() => {
+        if (ownerId === undefined) {
+            facade.fetchData("GET", "ownerId/" + facade.getUser(), (data) => setOwnerId(data.ownerId))
                 .catch(err => {
                     if (err.status) {
                         err.fullError.then(
                             event =>
                                 setErrorMsg("(" + event.errorCode + ") " + event.message),
-                            setCreateBoat({ name: '', brand: '', make: '', year: '', imageURL: '', ownerId: ownerId }))
+                            setOwnerId(undefined))
                     } else console.log("Network Error")
                 })
-        } finally {
-            setCreateBoat({ name: '', brand: '', make: '', year: '', imageURL: '', ownerId: ownerId })
         }
-    }
-
-    useEffect(() => {
-        if (ownerId === undefined) {
-            facade.fetchData('GET', 'ownerId/' + facade.getUser(), (data) => setOwnerId(data.ownerId))
+        if (ownerId !== undefined) {
+            facade.fetchData("GET", "boatsByOwner/" + ownerId, (data) => setBoats(data))
                 .catch(err => {
                     if (err.status) {
                         err.fullError.then(
                             event =>
-                                setErrorMsg('(' + event.errorCode + ') ' + event.message),
-                            setOwnerId(undefined))
+                                setErrorMsg("(" + event.errorCode + ") " + event.message),
+                            setBoats([]))
                     } else console.log("Network Error")
                 })
         }
@@ -49,8 +76,16 @@ const US_3 = ({ facade }) => {
     return (
         <div>
             <br />
-            [US-3] As an owner I would like to add a new boat
+            [US-4] As an owner I would like to update an existing boat
             <hr />
+            <p>
+                <select onChange={updateInputFields}>
+                    {boats.map((boat, index) => (
+                        <option key={index} value={boat.id}>{boat.name}</option>
+                    ))}
+                    <option hidden>Choose boat...</option>
+                </select>
+            </p>
             <form onSubmit={handleSubmit}>
                 <table>
                     <colgroup>
@@ -87,7 +122,7 @@ const US_3 = ({ facade }) => {
             </form>
             <p>{errorMsg}</p>
             {ownerId === undefined ? (<>Fetching id...</>) : (<></>)}
-
+            {boatId === undefined ? (<>Boat id unknown...</>) : (boatId)}
             {/* <p>--- DEBUG ---<br />{JSON.stringify({
                 name: createBoat.name,
                 brand: createBoat.brand,
@@ -96,8 +131,8 @@ const US_3 = ({ facade }) => {
                 imageURL: createBoat.imageURL,
                 ownerId: ownerId
             })}</p> */}
-        </div >
+        </div>
     )
 }
 
-export default US_3
+export default US_4

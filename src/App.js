@@ -9,6 +9,7 @@ import Header from './Components/Header'
 import US_1 from './Components/US_1'
 import US_2 from "./Components/US_2"
 import US_3 from "./Components/US_3"
+import US_4 from "./Components/US_4"
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false)
@@ -45,6 +46,9 @@ function App() {
           </Route>
           <Route exact path='/US_3'>
             {Facade.hasUserAccess('owner', loggedIn) && <US_3 facade={Facade} />}
+          </Route>
+          <Route exact path='/US_4'>
+            {Facade.hasUserAccess('owner', loggedIn) && <US_4 facade={Facade} />}
           </Route>
         </Switch>
       </Router>
